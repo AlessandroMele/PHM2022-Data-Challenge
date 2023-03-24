@@ -1,11 +1,11 @@
 # PHM20200-Data-Challenge
 Tale documentazione è una sintesi del file pdf contenente la relazione disponibile all'interno della repository come *ADMT_B_PHM2022_Data_Challenge.pdf*.<br>
-I dataset sono scaricabili al seguente <a href="">link</a>.
+I dataset sono scaricabili ai seguenti link, <a href="https://drive.google.com/drive/folders/189FOG3M9HqIhEr49yUDKxNH_IoeUeUTQ?usp=share_link">1</a> e  <a href="https://drive.google.com/drive/folders/1ekYSxD_LjZWMpBqFYxi0tsHidyiPpFW-?usp=share_link">2</a>.
 
 # Pre-processing
 Inizialmente, per ogni sensore, è stata definita una struttura dati tabellare, il dataframe, dove le righe rappresentano le serie temporali delle acquisizioni e le colonne gli istanti temporali.<br>
-Tali dataframe sono stati ottenuti concatenando, lungo le righe, i dati relativi alle configurazioni disponibili; nella seguente <a href="Addestramento e CrossValidation">sezione</a> si illustrerà che il seguente approccio non ottiene risultati soddisfacenti, poiché, essendo presenti sostanziali differenze tra le configurazioni, i modelli testati su una non osservata durante l'addestramento hanno scarse prestazioni.<br>
-Si è quindi deciso di effettuare un pre-processing alternativo, al fine di rendere i dati indipendenti dalle configurazioni eseguendo una normalizzazione rispetto ai riferimenti disponibili.<br>
+Tali dataframe sono stati ottenuti concatenando, lungo le righe, i dati relativi alle configurazioni disponibili.<br>
+Si è deciso di rendere i dati indipendenti dalle configurazioni eseguendo una normalizzazione rispetto ai riferimenti disponibili.<br>
 La normalizzazione ha richiesto, per ogni sensore e configurazione, i seguenti passaggi:
 - creazione di due dataframe, uno relativo al training e l'altro relativo ai riferimenti;
 - Per ogni colonna del dataframe dei riferimenti, è stata calcolata la media, ottenendo una serie temporale;
@@ -48,7 +48,7 @@ Dopo aver generato le feature per ogni sensore, sono state concatenate, ottenend
 
 # Creazione Dataset di Training
 Dopo aver calcolato le feature temporali e spettrali per tutti e 3 i sensori, esse sono state concatenate lungo le colonne in modo da ottenere un dataframe costituito da 426 colonne di feature e una per la classe di guasto.<br>
-Queste operazioni sono state ripetute per ogni configurazione, ottenendo una lista di 5 dataframe, i quali costituiscono i fold utilizzati nella seguente <a href="Addestramento e CrossValidation">sezione</a> per allenare i modelli e testarli tramite CrossValidation. 
+Queste operazioni sono state ripetute per ogni configurazione, ottenendo una lista di 5 dataframe, i quali costituiscono i fold utilizzati nell'addestramento dei modelli e testarli tramite CrossValidation. 
 
 # Addestramento e CrossValidation
 
@@ -84,7 +84,7 @@ La particolarità del dataset di test è che solo una parte (circa 20 acquisizio
 # ETL e Feature engineering
 Nel capitolo precedente si è dimostrato che la scelta di sottrarre il riferimento ad ogni configurazione ha portato ad un significativo incremento delle prestazioni dei modelli. Perciò anche nel testing si seguirà la stessa procedura.
 <br>
-Dopo aver normalizzato il dataset di testing, si è proceduto ad estrarre le feature utilizzando lo stesso metodo definito nella seguente <a href="Feature engineering">sezione</a> ottenendo un dataframe costituito da 415 colonne (414 feature più la colonna con la classe di guasto).
+Dopo aver normalizzato il dataset di testing, si è proceduto ad estrarre le feature, ottenendo un dataframe costituito da 415 colonne (414 feature più la colonna con la classe di guasto).
 
 # Addestramento e Testing
 Nella seguente sezione sono stati addestrati tutti i modelli su tutte e 5 le configurazioni di training, mentre il test è stato effettuato sulla configurazione non nota.
@@ -97,7 +97,7 @@ Matrice di confusione del RandomForestClassifier.<br>
 Matrice di confusione del XGBClassifier.<br>
 <img src="/images/risultati/Matrici di confusione testing/LGR.png"><br>
 Matrice di confusione della LogisticRegression.<br>
-<img src="/risultati/Matrici di confusione testing/QDA.png"><br>
+<img src="images/risultati/Matrici di confusione testing/QDA.png"><br>
 Matrice di confusione della QuadraticDiscriminantAnalysis.<br>
 
 Si può osservare che al di fuori del DecisionTree, tutti i modelli hanno classificato correttamente i 20 elementi etichettati del dataset di testing corrispondenti alla classe no fault.
