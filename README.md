@@ -1,14 +1,15 @@
 # PHM20200-Data-Challenge
-Tale documentazione è una sintesi del file pdf contenente la relazione disponibile all'interno della repository come *ADMT_B_PHM2022_Data_Challenge.pdf*.<br>
-I dataset sono scaricabili ai seguenti link, <a href="https://drive.google.com/drive/folders/189FOG3M9HqIhEr49yUDKxNH_IoeUeUTQ?usp=share_link">1</a> e  <a href="https://drive.google.com/drive/folders/1ekYSxD_LjZWMpBqFYxi0tsHidyiPpFW-?usp=share_link">2</a>.
+La documentazione fornita per la realizzazione del progetto è contenuta nel file (*B - PHM20200 Data Challenge - Paper.pdf*).<br>
+Tale documentazione è una sintesi della relazione (*ADMT_B_PHM2022_Data_Challenge.pdf*).<br>
+I dataset sono scaricabili ai seguenti link, <a href="https://drive.google.com/drive/folders/1ekYSxD_LjZWMpBqFYxi0tsHidyiPpFW-?usp=share_link">training</a> e <a href="https://drive.google.com/drive/folders/189FOG3M9HqIhEr49yUDKxNH_IoeUeUTQ?usp=share_link">testing</a>.
 
 # Pre-processing
-Inizialmente, per ogni sensore, è stata definita una struttura dati tabellare, il dataframe, dove le righe rappresentano le serie temporali delle acquisizioni e le colonne gli istanti temporali.<br>
+Inizialmente, per ogni sensore, è stata definita un *dataframe*, dove le righe rappresentano le serie temporali delle acquisizioni e le colonne gli istanti temporali.<br>
 Tali dataframe sono stati ottenuti concatenando, lungo le righe, i dati relativi alle configurazioni disponibili.<br>
 Si è deciso di rendere i dati indipendenti dalle configurazioni eseguendo una normalizzazione rispetto ai riferimenti disponibili.<br>
 La normalizzazione ha richiesto, per ogni sensore e configurazione, i seguenti passaggi:
-- creazione di due dataframe, uno relativo al training e l'altro relativo ai riferimenti;
-- Per ogni colonna del dataframe dei riferimenti, è stata calcolata la media, ottenendo una serie temporale;
+- creazione di due dataframe, uno relativo al training e l'altro relativo al riferimento;
+- Per ogni colonna del dataframe, è stata calcolata la media, ottenendo una serie temporale;
 - ad ogni riga del dataframe di training, è stata sottratta la serie temporale precedentemente calcolata.
 
 Di seguito, in figura si illustra un esempio di procedura di normalizzazione.
@@ -16,7 +17,6 @@ Di seguito, in figura si illustra un esempio di procedura di normalizzazione.
 Esempio di normalizzazione per una singola configurazione.<br>
 
 Intuitivamente, eseguire tali passaggi rende le serie temporali indipendenti dalla configurazione, poiché viene eseguita una normalizzazione rispetto ai riferimenti disponibili. <br>
-Nella sezione successiva verranno mostrate le immagini delle serie nel tempo e in frequenza, prima e dopo la normalizzazione.
 
 # Feature Temporali
 Le feature calcolate possono essere divise in 4 sottogruppi:
@@ -77,13 +77,10 @@ Si può facilmente osservare che il modello è molto performante nella prevision
 Si può inoltre osservare che le predizioni sono quasi del tutto prive di falsi allarmi, mentre sono presenti alcuni mancati allarmi, soprattutto nella prima fold.  
 
 # Testing
-In questo capitolo ogni modello sarà addestrato su tutte le configurazioni utilizzate per la Cross Validation e poi testato su una configurazione mai vista.
-<br>
 La particolarità del dataset di test è che solo una parte (circa 20 acquisizioni) è etichettata come classe 1, mentre il restante (circa 3200 acquisizioni) è etichettato con classe 0, la quale corrisponde ad una generica classe tra le 11 disponibili. Perciò il testing che verrà discusso non ha l'obiettivo di valutare l'accuratezza dei modelli, ma solo come le predizioni sono distribuite tra le 11 classi disponibili.
 
 # ETL e Feature engineering
-Nel capitolo precedente si è dimostrato che la scelta di sottrarre il riferimento ad ogni configurazione ha portato ad un significativo incremento delle prestazioni dei modelli. Perciò anche nel testing si seguirà la stessa procedura.
-<br>
+Nel capitolo precedente si è dimostrato che la scelta di sottrarre il riferimento ad ogni configurazione ha portato ad un significativo incremento delle prestazioni dei modelli. Perciò anche nel testing si seguirà la stessa procedura.<br>
 Dopo aver normalizzato il dataset di testing, si è proceduto ad estrarre le feature, ottenendo un dataframe costituito da 415 colonne (414 feature più la colonna con la classe di guasto).
 
 # Addestramento e Testing
